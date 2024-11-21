@@ -33,3 +33,6 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# API URL 및 민감한 정보
+APIURL.js
