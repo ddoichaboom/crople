@@ -76,6 +76,7 @@ const UpdateProfileScreen = () => {
 
   useEffect(() => {
     setDisabled(!form.nickname || isLoading); // nickname이 없거나 로딩 중이면 비활성화
+    console.log(user.role);
   }, [form, isLoading]);
 
   useLayoutEffect(() => {

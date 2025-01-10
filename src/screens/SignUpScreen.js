@@ -48,11 +48,6 @@ const SignUpScreen = () => {
     if (!form.disabled && !form.isLoading) {
       dispatch({ type: AuthFormTypes.TOGGLE_LOADING });
 
-      //사용자가 선택한 역할 확인
-      // console.log('사용자가 선택한 역할: ', selectedRole);
-      // console.log('사용자 이메일(아이디): ', form.email);
-      // console.log('사용자 비밀번호: ', form.password);
-
       try {
         // 회원가입 요청
         const response = await axios.post(`${API_URL}` + '/signup', {

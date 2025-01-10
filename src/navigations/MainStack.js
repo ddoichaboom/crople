@@ -7,7 +7,11 @@ import ServiceRequestScreen from '../screens/ServiceRequestScreen';
 import UpdateProfileScreen from '../screens/UpdateProfileScreen';
 import HeaderLeft from '../components/HeaderLeft';
 import EditProfileImageScreen from '../screens/EditProfileImageScreen';
-import ImagePickerScreen from '../screens/ImagePickerScreen';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
+import TutoringDetailScreen from '../screens/TutoringDetailScreen';
+import AccommoDetailScreen from '../screens/AccommoDetailScreen';
+import ProductRequestScreen from '../screens/ProductRequestScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,10 +32,12 @@ const MainStack = () => {
       <Stack.Screen
         name={MainRoutes.SERVICE_UPLOAD}
         component={ServiceUploadScreen}
+        options={{ title: '서비스 등록' }}
       />
       <Stack.Screen
         name={MainRoutes.SERVICE_REQUEST}
         component={ServiceRequestScreen}
+        options={{ title: '서비스 요청' }}
       />
       <Stack.Screen
         name={MainRoutes.UPDATE_PROFILE}
@@ -42,9 +48,22 @@ const MainStack = () => {
         component={EditProfileImageScreen}
       />
       <Stack.Screen
-        name={MainRoutes.IMAGE_PICKER}
-        component={ImagePickerScreen}
+        name={MainRoutes.PRODUCT_DETAIL}
+        component={ProductDetailScreen}
       />
+      <Stack.Screen
+        name={MainRoutes.PRODUCT_REQUEST}
+        component={ProductRequestScreen}
+      />
+      <Stack.Screen
+        name={MainRoutes.TUTORING_DETAIL}
+        component={TutoringDetailScreen}
+      />
+      <Stack.Screen
+        name={MainRoutes.ACCOMMO_DETAIL}
+        component={AccommoDetailScreen}
+      />
+      <Stack.Screen name={MainRoutes.PAYMENT} component={PaymentScreen} />
     </Stack.Navigator>
   );
 };

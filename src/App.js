@@ -6,24 +6,6 @@ import { View } from 'react-native';
 import { Asset } from 'expo-asset';
 import { UserProvider } from './contexts/UserContext';
 
-// const ImageAssets = [
-//   require('../../assets/start_icon.png'),
-//   require('../../assets/Crople_Text3.png'),
-//   require('../../assets/'),
-// ];
-
-// const originalWarn = console.warn;
-
-// console.warn = (...args) => {
-//   if (
-//     typeof args[0] === 'string' &&
-//     args[0].includes('Button: Support for defaultProps will be removed')
-//   ) {
-//     return;
-//   }
-//   originalWarn(...args);
-// };
-
 const App = () => {
   const [isReady, setIsReady] = useState(false);
 

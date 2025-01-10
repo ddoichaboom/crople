@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import Button from '../components/Button';
 import { AuthRoutes } from '../navigations/routes';
 import TextButton from '../components/TextButton';
+import { Role } from '../../Category';
 
 const RoleChooseScreen = () => {
   const { navigate } = useNavigation();
@@ -27,23 +28,23 @@ const RoleChooseScreen = () => {
       <View style={styles.checkBoxContainer}>
         <View style={styles.checkBoxStyle}>
           <BouncyCheckbox
-            isChecked={selectedRole === 'consumer'}
-            onPress={() => setSelectedRole('consumer')}
+            isChecked={selectedRole === Role.CONSUMER}
+            onPress={() => setSelectedRole(Role.CONSUMER)}
           />
           <TextButton
             title="수요자"
-            onPress={() => setSelectedRole('consumer')}
+            onPress={() => setSelectedRole(Role.CONSUMER)}
             styles={{ title: { fontSize: 20 } }}
           />
         </View>
         <View style={styles.checkBoxStyle}>
           <BouncyCheckbox
-            isChecked={selectedRole === 'provider'}
-            onPress={() => setSelectedRole('provider')}
+            isChecked={selectedRole === Role.PROVIDER}
+            onPress={() => setSelectedRole(Role.PROVIDER)}
           />
           <TextButton
             title="공급자"
-            onPress={() => setSelectedRole('provider')}
+            onPress={() => setSelectedRole(Role.PROVIDER)}
             styles={{ title: { fontSize: 20 } }}
           />
         </View>

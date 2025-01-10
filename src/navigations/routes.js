@@ -11,12 +11,16 @@ export const MainRoutes = {
   SERVICE_REQUEST: 'ServiceRequest',
   UPDATE_PROFILE: 'UpdateProfile',
   EDIT_PROFILE: 'EditProfile',
-  IMAGE_PICKER: 'ImagePicker',
+  PRODUCT_DETAIL: 'ProductDetail',
+  PRODUCT_REQUEST: 'ProductRequest',
+  TUTORING_DETAIL: 'TutoringDetail',
+  ACCOMMO_DETAIL: 'AccommoDetail',
+  PAYMENT: 'Payment',
 };
 
 export const ContentRoutes = {
   HOME: 'Home',
   LIST: 'List',
-  MESSAGE: 'Message',
+  MYLIST: 'MyList',
   PROFILE: 'Profile',
 };

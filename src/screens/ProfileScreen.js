@@ -16,6 +16,7 @@ import { BLACK, GRAY, WHITE } from '../colors';
 import DangerAlert, { AlertTypes } from '../components/DangerAlert';
 import { useNavigation } from '@react-navigation/native';
 import { MainRoutes } from '../navigations/routes';
+import { Role } from '../../Category';
 
 const ProfileScreen = () => {
   const [user, setUser] = useUserState();
@@ -71,6 +72,9 @@ const ProfileScreen = () => {
       </View>
       <View style={styles.listContainer}>
         <Text style={styles.titleHeader}>개인 정보</Text>
+        <Text style={styles.textTitle}>
+          역할 : {user.role === Role.CONSUMER ? '수요자' : '공급자'}
+        </Text>
         <Text style={styles.textTitle}>이름 : {user.name}</Text>
         <Text style={styles.textTitle}>닉네임 : {user.nickname}</Text>
         <Text style={styles.textTitle}>이메일 : {user.email}</Text>

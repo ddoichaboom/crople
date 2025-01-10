@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+        <script>
+            function requestPay() {
+    IMP.init('imp31364107'); 
+
+    IMP.request_pay(
+        {
+            pg: 'kakaopay', // 여기에서 올바른 값을 사용해야 합니다.
+    pay_method: 'card', // 결제 방법
+    merchant_uid: `order_${new Date().getTime()}`, // 주문 ID
+    amount: 1000, // 결제 금액
+    name: '주문명',
+    buyer_email: 'buyer@example.com',
+    buyer_name: '구매자 이름',
+    buyer_tel: '010-1234-5678',
+    buyer_addr: '주소',
+    buyer_postcode: '우편번호',
+        },
+        function (response) {
+            // 결제 종료 시 호출되는 콜백 함수
+            if (response.success) {
+                $.ajax({
+                    url: '/api/payment/verify', // 서버의 결제 검증 API 경로
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        merchant_uid: response.merchant_uid,
+                        imp_uid: response.imp_uid,
+                        amount: response.paid_amount,
+                        status: response.status
+                    }),
+                    success: function (result) {
+                        console.log("결제 성공 처리:", result);
+                    },
+                    error: function (error) {
+                        console.log("결제 검증 실패:", error);
+                    }
+                });
+            } else {
+                console.log("결제 실패:", response);
+            }
+        }
+    );
+}
+
+        </script>
+    </head>
+    <body>
+        <button onclick="requestPay()">결제하기</button>
+    </body>
+</html>

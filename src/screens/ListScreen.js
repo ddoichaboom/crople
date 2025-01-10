@@ -1,5 +1,4 @@
 import { Image, StyleSheet, View } from 'react-native';
-import PropTypes from 'prop-types';
 import { GRAY, WHITE } from '../colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -9,21 +8,16 @@ import { useEffect, useState } from 'react';
 import { AWSS3URL } from '../api/ApiURL';
 import { useUserState } from '../contexts/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export const Category = {
-  PRODUCT: 'products',
-  TUTORING: 'tutoring',
-  ACCOMODATION: 'accomodation',
-};
-
-const ListByCategory = (category) => {
-  console.log('Selected Category:', category);
-};
+import ProductsList from '../components/ProductsList';
+import TutoringList from '../components/TutoringList';
+import AccommoList from '../components/AccommoList';
+import { MainRoutes } from '../navigations/routes';
+import { Categories, Role } from '../../Category';
 
 const ListScreen = () => {
   const navigation = useNavigation();
   const { top } = useSafeAreaInsets();
-  const [selectedcategory, setSelectedCategory] = useState();
+  const [selectedcategory, setSelectedCategory] = useState(Categories.PRODUCTS);
   const [user, setUser] = useUserState();
 
   useEffect(() => {
@@ -36,9 +30,18 @@ const ListScreen = () => {
     loadUserData();
   }, [setUser]);
 
-  const handleCategoryPress = (category) => {
-    setSelectedCategory(category);
-    ListByCategory(category);
+  const onSubmit = (idBoard, category, role, photoUrls) => {
+    if (category === Categories.PRODUCTS) {
+      if (role === Role.CONSUMER) {
+        navigation.navigate(MainRoutes.PRODUCT_REQUEST, { idBoard, photoUrls });
+      } else if (role === Role.PROVIDER) {
+        navigation.navigate(MainRoutes.PRODUCT_DETAIL, { idBoard, photoUrls });
+      }
+    } else if (category === Categories.TUTORING) {
+      navigation.navigate(MainRoutes.TUTORING_DETAIL, { idBoard, photoUrls });
+    } else if (category === Categories.ACCOMMODATION) {
+      navigation.navigate(MainRoutes.ACCOMMO_DETAIL, { idBoard, photoUrls });
+    }
   };
 
   return (
@@ -56,53 +59,58 @@ const ListScreen = () => {
       <View style={styles.categories}>
         <TextButton
           styles={{
-            button: styles.buttontitle,
             title: {
               color:
-                selectedcategory === Category.PRODUCT
+                selectedcategory === Categories.PRODUCTS
                   ? GRAY.DARK
                   : GRAY.DEFAULT,
               paddingHorizontal: 5,
             },
           }}
           title={'물품 거래'}
-          onPress={() => handleCategoryPress(Category.PRODUCT)}
+          onPress={() => setSelectedCategory(Categories.PRODUCTS)}
         />
         <TextButton
           styles={{
             button: styles.buttontitle,
             title: {
               color:
-                selectedcategory === Category.TUTORING
+                selectedcategory === Categories.TUTORING
                   ? GRAY.DARK
                   : GRAY.DEFAULT,
               paddingHorizontal: 5,
             },
           }}
           title={'맞춤형 레슨'}
-          onPress={() => handleCategoryPress(Category.TUTORING)}
+          onPress={() => setSelectedCategory(Categories.TUTORING)}
         />
         <TextButton
           styles={{
             button: styles.buttontitle,
             title: {
               color:
-                selectedcategory === Category.ACCOMODATION
+                selectedcategory === Categories.ACCOMMODATION
                   ? GRAY.DARK
                   : GRAY.DEFAULT,
               paddingHorizontal: 5,
             },
           }}
           title={'숙박'}
-          onPress={() => handleCategoryPress(Category.ACCOMODATION)}
+          onPress={() => setSelectedCategory(Categories.ACCOMMODATION)}
         />
       </View>
+
+      {selectedcategory === Categories.PRODUCTS && (
+        <ProductsList onSubmit={onSubmit} />
+      )}
+      {selectedcategory === Categories.TUTORING && (
+        <TutoringList onSubmit={onSubmit} />
+      )}
+      {selectedcategory === Categories.ACCOMMODATION && (
+        <AccommoList onSubmit={onSubmit} />
+      )}
     </View>
   );
-};
-
-ListScreen.propTypes = {
-  //PropTypes
 };
 
 const styles = StyleSheet.create({

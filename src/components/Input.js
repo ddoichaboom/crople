@@ -4,10 +4,25 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useState, forwardRef } from 'react';
 import { GRAY, PRIMARY } from '../colors';
 
+export const ReturnKeyTypes = {
+  DEFAULT: 'default',
+  GO: 'go',
+  NEXT: 'next',
+  DONE: 'done',
+  SEARCH: 'search',
+  SEND: 'send',
+};
+
 export const InputTypes = {
+  TEXT: 'TEXT',
   EMAIL: 'EMAIL',
   PASSWORD: 'PASSWORD',
   PASSWORD_CONFIRM: 'PASSWORD_CONFIRM',
+  NUMBER: 'NUMBER',
+  LOCATION: 'LOCATION',
+  DETAIL: 'DETAIL',
+  TITLE: 'TITLE',
+  SUBJECT: 'SUBJECT',
 };
 
 const PasswordProps = {
@@ -24,6 +39,39 @@ const InputTypeProps = {
     secureTextEntry: false,
     iconName: { active: 'email', inactive: 'email-outline' },
   },
+  NUMBER: {
+    title: '숫자 입력',
+    placeholder: '숫자를 입력하세요',
+    keyboardType: 'numeric',
+    secureTextEntry: false,
+    iconName: { active: 'currency-krw', inactive: 'currency-krw' },
+  },
+  TITLE: {
+    title: '제목 입력',
+    plcaeholder: '제목을 입력하세요',
+    secureTextEntry: false,
+    iconName: { active: 'tag', inactive: 'tag-outline' },
+  },
+  SUBJECT: {
+    title: '과목 입력',
+    plcaeholder: '과목을 입력하세요',
+    secureTextEntry: false,
+    iconName: { active: 'book-open', inactive: 'book-open-outline' },
+  },
+  DETAIL: {
+    title: '텍스트 입력',
+    placeholder: '입력하세요',
+    keyboardType: 'default',
+    secureTextEntry: false,
+    iconName: { active: 'information', inactive: 'information-outline' },
+  },
+  LOCATION: {
+    title: '위치',
+    placeholder: '위치를 입력하세요',
+    keyboardType: 'default',
+    secureTextEntry: false,
+    iconName: { active: 'map-marker', inactive: 'map-marker-outline' },
+  },
   PASSWORD: {
     title: '비밀번호',
     placeholder: '비밀번호를 입력하세요',
@@ -34,77 +82,92 @@ const InputTypeProps = {
     placeholder: '비밀번호 확인',
     ...PasswordProps,
   },
+  TEXT: {
+    title: '텍스트 입력',
+    plcaeholder: '텍스트를 입력하세요',
+    secureTextEntry: false,
+    iconName: { active: 'format-text', inactive: 'format-text' },
+  },
 };
 
-export const ReturnKeyTypes = {
-  DONE: 'done',
-  NEXT: 'next',
-};
+const Input = forwardRef(
+  ({ inputType, title, placeholder, iconName, styles, ...props }, ref) => {
+    const inputProps = InputTypeProps[inputType] || InputTypeProps.TEXT; // 기본값 설정
+    const {
+      title: defaultTitle,
+      placeholder: defaultPlaceholder,
+      keyboardType,
+      secureTextEntry,
+      iconName: { active, inactive },
+    } = inputProps;
 
-const Input = forwardRef(({ inputType, styles, ...props }, ref) => {
-  const {
-    title,
-    placeholder,
-    keyboardType,
-    secureTextEntry,
-    iconName: { active, inactive },
-  } = InputTypeProps[inputType];
+    const [isFocused, setIsFocused] = useState(false);
+    const { value } = props;
 
-  const [isFocused, setIsFocused] = useState(false);
-  const { value } = props;
+    // 아이콘 이름 덮어쓰기
+    const iconNameActive = iconName?.active || active;
+    const iconNameInactive = iconName?.inactive || inactive;
 
-  return (
-    <View style={[defaultStyles.container, styles?.container]}>
-      <Text
-        style={[
-          defaultStyles.title,
-          {
-            color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
-          },
-          styles?.title,
-        ]}
-      >
-        {title}
-      </Text>
-
-      <View style={{}}>
-        <TextInput
-          ref={ref}
-          {...props}
+    return (
+      <View style={[defaultStyles.container, styles?.container]}>
+        <Text
           style={[
-            defaultStyles.input,
+            defaultStyles.title,
             {
-              borderColor: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
               color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
             },
-            styles?.input,
+            styles?.title,
           ]}
-          placeholder={placeholder}
-          keyboardType={keyboardType}
-          secureTextEntry={secureTextEntry}
-          onBlur={() => setIsFocused(false)}
-          onFocus={() => setIsFocused(true)}
-          autoCaptialize={'none'}
-          autoCorrect={false}
-          textContentType={'none'}
-          keyboardAppearance={'light'}
-        />
-        <View style={[defaultStyles.icon, styles?.icon]}>
-          <MaterialCommunityIcons
-            name={isFocused ? active : inactive}
-            size={24}
-            color={value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK}
+        >
+          {title || defaultTitle}
+        </Text>
+
+        <View>
+          <TextInput
+            ref={ref}
+            {...props}
+            style={[
+              defaultStyles.input,
+              {
+                borderColor: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
+                color: value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK,
+              },
+              styles?.input,
+            ]}
+            placeholder={placeholder || defaultPlaceholder}
+            keyboardType={keyboardType}
+            secureTextEntry={secureTextEntry}
+            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            textContentType={'none'}
+            keyboardAppearance={'light'}
           />
+
+          <View style={[defaultStyles.icon, styles?.icon]}>
+            <MaterialCommunityIcons
+              name={isFocused ? iconNameActive : iconNameInactive}
+              size={24}
+              color={value || isFocused ? PRIMARY.DEFAULT : GRAY.DARK}
+            />
+          </View>
         </View>
       </View>
-    </View>
-  );
-});
+    );
+  }
+);
 
 Input.propTypes = {
   inputType: PropTypes.oneOf(Object.values(InputTypes)),
   value: PropTypes.string,
+  title: PropTypes.string,
+  placeholder: PropTypes.string,
   styles: PropTypes.object,
+  iconName: PropTypes.shape({
+    active: PropTypes.string,
+    inactive: PropTypes.string,
+  }),
 };
 
 const defaultStyles = StyleSheet.create({
@@ -114,7 +177,7 @@ const defaultStyles = StyleSheet.create({
   title: {
     marginTop: 4,
     marginBottom: 4,
-    fontweight: '700',
+    fontWeight: '700',
   },
   input: {
     borderBottomWidth: 1,

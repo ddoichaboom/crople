@@ -6,7 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { GRAY, PRIMARY } from '../colors';
 import TabBarAddButton from '../components/TabBarAddButton';
-import MessageListScreen from '../screens/MessageListScreen';
+import MyListScreen from '../screens/MyListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,12 +50,11 @@ const ContentTab = () => {
       />
 
       <Tab.Screen
-        name={ContentRoutes.MESSAGE}
-        component={MessageListScreen}
+        name={ContentRoutes.MYLIST}
+        component={MyListScreen}
         options={{
-          tabBarIcon: (props) =>
-            getTabBarIcon({ ...props, name: 'message-text' }),
-          tabBarLabel: '채팅',
+          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'book' }),
+          tabBarLabel: '내 목록',
         }}
       />
       <Tab.Screen

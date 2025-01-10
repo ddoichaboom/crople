@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Pressable,
   Text,
@@ -109,7 +110,7 @@ const EditProfileImageScreen = () => {
       await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser); // 사용자 상태 업데이트
 
-      alert('프로필 사진이 업로드되었습니다.');
+      Alert.alert('변경 성공', '프로필 사진이 업로드되었습니다.');
       navigation.goBack();
     } catch (error) {
       console.error('업로드 실패:', error);

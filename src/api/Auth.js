@@ -16,3 +16,14 @@ export const updateUserInfo = async (idUser, payload) => {
     throw error; // 에러를 다시 던져서 호출한 곳에서 처리할 수 있도록 합니다.
   }
 };
+
+export const getUserInfo = async (idUser) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${idUser}`);
+
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update user info :', error);
+    throw error;
+  }
+};
