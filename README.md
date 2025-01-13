@@ -4,3 +4,4 @@
 
 
 
+![마지막 정보구조도](https://github.com/user-attachments/assets/06051194-0ff7-47d3-b1a7-b8b9ee3e4cd3)
